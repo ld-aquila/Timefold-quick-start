@@ -1,11 +1,13 @@
 package org.acme.orderpicking.domain;
 
+import ai.timefold.solver.core.api.domain.variable.ShadowVariable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import ai.timefold.solver.core.api.domain.entity.PlanningEntity;
 import ai.timefold.solver.core.api.domain.lookup.PlanningId;
 import ai.timefold.solver.core.api.domain.variable.AnchorShadowVariable;
 import ai.timefold.solver.core.api.domain.variable.PlanningVariable;
 import ai.timefold.solver.core.api.domain.variable.PlanningVariableGraphType;
+import org.apache.commons.math3.geometry.euclidean.oned.Interval;
 
 /**
  * Represents a "stop" in a Trolley's path where an order item is to be picked.
@@ -45,11 +47,22 @@ public class TrolleyStep extends TrolleyOrTrolleyStep {
     @JsonIgnore
     @PlanningVariable(graphType = PlanningVariableGraphType.CHAINED)
     private TrolleyOrTrolleyStep previousElement;
+    @ShadowVariable(variableListenerClass = IntervalAssigningListener.class,sourceVariableName = "previousElement")
+    private Interval interval;//assignning listener variable
+
+    public Interval getInterval() {
+        return interval;
+    }
+
+    public void setInterval(Interval interval) {
+        this.interval = interval;
+    }
 
     /**
      * Shadow variable: Is automatically set by the Solver and facilitates that all the trolley steps can have a
      * reference to the chain "anchor", the Trolley.
      */
+
     @JsonIgnore
     @AnchorShadowVariable(sourceVariableName = PREVIOUS_ELEMENT)
     private Trolley trolley;

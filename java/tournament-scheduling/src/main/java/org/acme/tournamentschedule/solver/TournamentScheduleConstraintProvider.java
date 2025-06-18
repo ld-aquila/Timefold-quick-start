@@ -44,7 +44,7 @@ public class TournamentScheduleConstraintProvider implements ConstraintProvider 
                 .asConstraint("unavailabilityPenalty");
     }
 
-    Constraint fairAssignmentCountPerTeam(ConstraintFactory constraintFactory) {
+    Constraint  fairAssignmentCountPerTeam(ConstraintFactory constraintFactory) {
         return constraintFactory.forEach(TeamAssignment.class)
                 .groupBy(loadBalance(TeamAssignment::getTeam))
                 .penalizeBigDecimal(HardMediumSoftBigDecimalScore.ONE_MEDIUM, LoadBalance::unfairness)

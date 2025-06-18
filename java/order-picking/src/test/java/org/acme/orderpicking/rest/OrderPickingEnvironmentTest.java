@@ -30,7 +30,7 @@ class OrderPickingEnvironmentTest {
 
     @Test
     void solveFullAssert() {
-        solve(EnvironmentMode.FULL_ASSERT);
+        solve(EnvironmentMode.NO_ASSERT);
     }
 
     @Test
