@@ -13,6 +13,13 @@ public class IntervalAssigningListener implements VariableListener<OrderPickingS
     private static String INTERVAL = "interval";
     @Override
     public void beforeVariableChanged(@NonNull ScoreDirector<OrderPickingSolution> scoreDirector, @NonNull TrolleyStep trolleyStep) {
+        scoreDirector.beforeVariableChanged(trolleyStep, INTERVAL);
+        trolleyStep.setInterval(null);
+        scoreDirector.afterVariableChanged(trolleyStep, INTERVAL);}
+
+
+    @Override
+    public void afterVariableChanged(@NonNull ScoreDirector<OrderPickingSolution> scoreDirector, @NonNull TrolleyStep trolleyStep) {
         if (trolleyStep.getPreviousElement() != null) {
             trolleyStep.setInterval(null);
             if (trolleyStep.getPreviousElement().getNextElement()!=null){
@@ -24,13 +31,7 @@ public class IntervalAssigningListener implements VariableListener<OrderPickingS
                 trolleyStep.setInterval(new Interval(40,50));
                 scoreDirector.afterVariableChanged(trolleyStep, INTERVAL);}
 
-
         }
-    }
-
-    @Override
-    public void afterVariableChanged(@NonNull ScoreDirector<OrderPickingSolution> scoreDirector, @NonNull TrolleyStep trolleyStep) {
-
     }
 
     @Override
